@@ -5,7 +5,7 @@ export default function TagCreator() {
   const [tag, setTag] = useState();
 
   const getLocalStorage = () => {
-    console.log('getLocalStorage');
+    console.log('getLocalStorage->tags');
     const localStorage = window.localStorage;
     const tags = localStorage.getItem('tags');
     if (tags) {
