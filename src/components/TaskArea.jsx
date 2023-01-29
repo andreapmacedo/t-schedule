@@ -77,9 +77,9 @@ export default function TaskArea() {
       <p>duration: {task.duration}</p>
       <button onClick={() => createTask()}>Criar Tarefa</button>
       <div>
-        {tasks.map((index) => (
+        {tasks.map((task, index) => (
           <div key={index}>
-            <TaskComponent />
+            <TaskComponent task={task}/>
           </div>
         ))}
       </div>
