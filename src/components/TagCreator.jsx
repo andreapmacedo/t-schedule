@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import MainContext from '../context/MainContext';
+import TagComponent from './TagComponent';
 
 export default function TagCreator() {
-  const [tags, setTags] = useState();
   const [tag, setTag] = useState();
+  const [tags, setTags] = useState([]);
+  // const { tags, setTags } = useContext(MainContext);
 
   const getLocalStorage = () => {
     console.log('getLocalStorage->tags');
@@ -26,31 +29,14 @@ export default function TagCreator() {
     const newTags = [...tags, tag];
     setTags(newTags);
     setLocalStorage(newTags);
-    // setTag('');
+    setTag('');
   }
-  // const addTag = (tag) => {
-  //   const tagName = tag + tags.length;
-  //   const newTags = [...tags, tagName];
-  //   setTags(newTags);
-  //   setLocalStorage(newTags);
-  // }
 
-  const removeTag = () => {
-    if(!tag) return; // if tag is empty, return out of the function
-    // if(tags.includes(tag)) {
-      console.log('tagg', tag);
-      const newTags = tags.filter((t) => t !== tag);
-      setTags(newTags);
-      setLocalStorage(newTags);
-    // }
+  const removeTag = (tagItem) => {
+    const newTags = tags.filter((t) => t !== tagItem);
+    setTags(newTags);
+    setLocalStorage(newTags);
   }
-  // const removeTag = (tag) => {
-  //   const tagName = tag + (tags.length-1);
-  //   console.log('tagName', tagName);
-  //   const newTags = tags.filter((t) => t !== tagName);
-  //   setTags(newTags);
-  //   setLocalStorage(newTags);
-  // }
 
   const clearTags = () => {
     setTags([]);
@@ -65,9 +51,15 @@ export default function TagCreator() {
     <>
       <h1>TagCreator</h1>
       <button onClick={() => addTag('tag')}>Add tag</button>
-      <button onClick={() => removeTag('tag')}>Remove tag</button>
       <button onClick={() => clearTags()}>Clear tags</button>
       <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
+      <div>
+        {tags.map((tag, index) => (
+          <div key={index} draggable>
+            <TagComponent tag={tag} remove={removeTag}/>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

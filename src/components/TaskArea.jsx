@@ -46,14 +46,14 @@ export default function TaskArea() {
     // const newTask = tasks.filter((t) => t !== task);
   };
 
-  useEffect(() => {
-    setTasks(getLocalStorage());
-  }, []);
-
   const timeUpdate = () => {
     const durarion = task.timeEnd - task.timeStart;
     setTask({ ...task, duration: durarion });
   };
+
+  useEffect(() => {
+    setTasks(getLocalStorage());
+  }, []);
 
   useEffect(() => {
     timeUpdate();
@@ -72,7 +72,9 @@ export default function TaskArea() {
       <h1>TaskArea</h1>
       <p>Title</p>
       <input name="title" type="text" onChange={handleTaskChange} value={task.title}/>
+      <p>Time start</p>
       <input name="timeStart" type="text" onChange={handleTaskChange} value={task.timeStart}/>
+      <p>Time end</p>
       <input name="timeEnd" type="text" onChange={handleTaskChange} value={task.timeEnd}/>
       <p>duration: {task.duration}</p>
       <button onClick={() => createTask()}>Criar Tarefa</button>
