@@ -1,13 +1,21 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import MainContext from '../context/MainContext';
 import TagComponent from './TagComponent';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 export default function TagCreator() {
-  const dragItem = useRef(); // drag step 2 
-  const dragOverItem = useRef();  // drag step 3
+  // const dragItem = useRef(); // drag step 2 
+  // const dragOverItem = useRef();  // drag step 3
   const [tag, setTag] = useState();
   const [tags, setTags] = useState([]); 
-  const [list, setList] = useState(['Item 1','Item 2','Item 3','Item 4','Item 5','Item 6']);// drag step 1 
+  const [list, setList] = useState([
+    {id: '1', item: 'Item1'},
+    {id: '2', item: 'Item2'},
+    {id: '3', item: 'Item3'},
+    {id: '4', item: 'Item4'},
+    {id: '5', item: 'Item5'},
+    {id: '6', item: 'Item6'},
+  ]);// drag step 1 
   // const { tags, setTags } = useContext(MainContext);
 
   const getLocalStorage = () => {
@@ -46,28 +54,38 @@ export default function TagCreator() {
     setLocalStorage([]);
   }
 
-  // drag step 2
-  const dragStart = (e, position) => {
-    dragItem.current = position;
-    console.log(e.target.innerHTML);
-  };
+  // // drag step 2
+  // const dragStart = (e, position) => {
+  //   dragItem.current = position;
+  //   console.log(e.target.innerHTML);
+  // };
 
-  // drag step 3
-  const dragEnter = (e, position) => {
-    dragOverItem.current = position;
-    console.log(e.target.innerHTML);
-  };
+  // // drag step 3
+  // const dragEnter = (e, position) => {
+  //   dragOverItem.current = position;
+  //   console.log(e.target.innerHTML);
+  // };
 
-  // drag step 4
-  const drop = (e) => {
-    const copyListItems = [...list];
-    const dragItemContent = copyListItems[dragItem.current];
-    copyListItems.splice(dragItem.current, 1);
-    copyListItems.splice(dragOverItem.current, 0, dragItemContent);
-    dragItem.current = null;
-    dragOverItem.current = null;
-    setList(copyListItems);
-  };
+  // // drag step 4
+  // const drop = (e) => {
+  //   const copyListItems = [...list];
+  //   const dragItemContent = copyListItems[dragItem.current];
+  //   copyListItems.splice(dragItem.current, 1);
+  //   copyListItems.splice(dragOverItem.current, 0, dragItemContent);
+  //   dragItem.current = null;
+  //   dragOverItem.current = null;
+  //   setList(copyListItems);
+  // };
+
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = Array.from(list);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setList(items);
+  }
 
   useEffect(() => {
     setTags(getLocalStorage());
@@ -79,24 +97,65 @@ export default function TagCreator() {
       <button onClick={() => addTag('tag')}>Add tag</button>
       <button onClick={() => clearTags()}>Clear tags</button>
       <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
-      <div>
-        {
-        list &&  
-        list.map((tag, index) => (
-          // draggable drag step 1
-          // onDragStarter drag step 2
-          // onDragEnter drag step 3
-          <div
-            key={index}
-            onDragStart={(e) => dragStart(e, index)}
-            onDragEnter={(e) => dragEnter(e, index)}
-            onDragEnd={drop}
-            draggable
-          >  
-              {tag}
-          </div>
-        ))}
-      </div>
+
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="list">
+          {(provided) => (
+            <ul className="list" {...provided.droppableProps} ref={provided.innerRef}>
+              {
+              // list &&  
+              list.map(({id, item}, index) => {
+                return (
+                  <Draggable key={id} draggableId={id} index={index}>
+                    {(provided) => (
+                      <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>                      
+                        {/* <p>teste</p> */}
+                        <p>
+                          { item }
+                        </p>
+                      </li>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
+            </ul>
+          )}
+          </Droppable>
+        </DragDropContext>
+
+
+      {/* <DragDropContext>
+        <Droppable droppableId="tags">
+          {(provided) => (
+            <div className='tags' {...provided.droppableProps} ref={provided.innerRef}>
+              {
+              list &&  
+              list.map(({id, item}, index) => (
+                // draggable drag step 1
+                // onDragStarter drag step 2
+                // onDragEnter drag step 3
+                <Draggable Draggable key={id} draggableId={id} index={index}>
+                  {(provided) => (
+                    <div
+                      key={id}
+                      // onDragStart={(e) => dragStart(e, index)}
+                      // onDragEnter={(e) => dragEnter(e, index)}
+                      // onDragEnd={drop}
+                      // draggable
+                    >  
+                        {tag}
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+            </div>
+            
+          )}
+          </Droppable>
+        </DragDropContext> */}
+
+
       {/* <div>
         {tags.map((tag, index) => (
           // draggable drag step 1
