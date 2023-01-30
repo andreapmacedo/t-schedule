@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import MainContext from '../context/MainContext';
 import TagComponent from './TagComponent';
 
 export default function TagCreator() {
+  const dragItem = useRef(); // drag step 2 
+  const dragOverItem = useRef();  // drag step 3
   const [tag, setTag] = useState();
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([]); 
+  const [list, setList] = useState(['Item 1','Item 2','Item 3','Item 4','Item 5','Item 6']);// drag step 1 
   // const { tags, setTags } = useContext(MainContext);
 
   const getLocalStorage = () => {
@@ -43,6 +46,29 @@ export default function TagCreator() {
     setLocalStorage([]);
   }
 
+  // drag step 2
+  const dragStart = (e, position) => {
+    dragItem.current = position;
+    console.log(e.target.innerHTML);
+  };
+
+  // drag step 3
+  const dragEnter = (e, position) => {
+    dragOverItem.current = position;
+    console.log(e.target.innerHTML);
+  };
+
+  // drag step 4
+  const drop = (e) => {
+    const copyListItems = [...list];
+    const dragItemContent = copyListItems[dragItem.current];
+    copyListItems.splice(dragItem.current, 1);
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setList(copyListItems);
+  };
+
   useEffect(() => {
     setTags(getLocalStorage());
   }, []);
@@ -54,12 +80,39 @@ export default function TagCreator() {
       <button onClick={() => clearTags()}>Clear tags</button>
       <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
       <div>
-        {tags.map((tag, index) => (
-          <div key={index} draggable>
-            <TagComponent tag={tag} remove={removeTag}/>
+        {
+        list &&  
+        list.map((tag, index) => (
+          // draggable drag step 1
+          // onDragStarter drag step 2
+          // onDragEnter drag step 3
+          <div
+            key={index}
+            onDragStart={(e) => dragStart(e, index)}
+            onDragEnter={(e) => dragEnter(e, index)}
+            onDragEnd={drop}
+            draggable
+          >  
+              {tag}
           </div>
         ))}
       </div>
+      {/* <div>
+        {tags.map((tag, index) => (
+          // draggable drag step 1
+          // onDragStarter drag step 2
+          // onDragEnter drag step 3
+          <div
+            key={index}
+            onDragStart={(e) => dragStart(e, index)}
+            onDragEnter={(e) => dragEnter(e, index)}
+            onDragEnd={drop}
+            draggable
+          >  
+              <TagComponent tag={tag} remove={removeTag}/>
+          </div>
+        ))}
+      </div> */}
     </>
   );
 }
