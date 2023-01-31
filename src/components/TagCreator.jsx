@@ -124,38 +124,6 @@ export default function TagCreator() {
           </Droppable>
         </DragDropContext>
 
-
-      {/* <DragDropContext>
-        <Droppable droppableId="tags">
-          {(provided) => (
-            <div className='tags' {...provided.droppableProps} ref={provided.innerRef}>
-              {
-              list &&  
-              list.map(({id, item}, index) => (
-                // draggable drag step 1
-                // onDragStarter drag step 2
-                // onDragEnter drag step 3
-                <Draggable Draggable key={id} draggableId={id} index={index}>
-                  {(provided) => (
-                    <div
-                      key={id}
-                      // onDragStart={(e) => dragStart(e, index)}
-                      // onDragEnter={(e) => dragEnter(e, index)}
-                      // onDragEnd={drop}
-                      // draggable
-                    >  
-                        {tag}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-            </div>
-            
-          )}
-          </Droppable>
-        </DragDropContext> */}
-
-
       {/* <div>
         {tags.map((tag, index) => (
           // draggable drag step 1
