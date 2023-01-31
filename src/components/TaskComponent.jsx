@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 // import React, { useState, useRef } from 'react';
 import { setTasksOnLocalStorage } from '../data/localStorage';
 import MainContext from '../context/MainContext';
+import TagComponent from './TagComponent';
 
 /* a problematica deste componente.
   É preciso ter acesso ao localstorage com todos as tasks para que possa ser
@@ -99,6 +100,12 @@ export default function TaskComponent(props) {
     setTag('');
   }
 
+  const removeTag = (tagItem) => {
+    const newTags = tags.filter((t) => t !== tagItem);
+    setTags(newTags);
+    // setLocalStorage(newTags);
+  }
+
   useEffect(() => {
     updateTask();
   }, [tags]);
@@ -131,7 +138,8 @@ export default function TaskComponent(props) {
           <div
             key={index}
           >  
-            {tag}
+            {/* {tag} */}
+            <TagComponent tag={tag} remove={removeTag}/>
           </div>
         ))}
       </div>
