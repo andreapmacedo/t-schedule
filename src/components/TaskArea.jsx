@@ -2,11 +2,16 @@ import React, { useEffect, useState, useContext } from 'react';
 import TaskComponent from "./TaskComponent";
 import { schedule } from '../data/schedule';
 import MainContext from '../context/MainContext';
+import { 
+  // setTasksOnLocalStorage,
+  // getTasksOnLocalStorage,
+  // setTagsOnLocalStorage,
+  getTagsOnLocalStorage
+} from '../data/localStorage';
 
 export default function TaskArea() {
   const [task, setTask] = useState(schedule);
-  // const [tasks, setTasks] = useState([]);
-  const { tasks, setTasks } = useContext(MainContext);
+  const { tasks, setTasks, tags, setTags } = useContext(MainContext);
 
   const getLocalStorage = () => {
     console.log("getLocalStorage->tasks");
@@ -55,6 +60,7 @@ export default function TaskArea() {
 
   useEffect(() => {
     setTasks(getLocalStorage());
+    setTags(getTagsOnLocalStorage());
   }, []);
 
   useEffect(() => {
