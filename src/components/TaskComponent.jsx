@@ -107,8 +107,6 @@ export default function TaskComponent(props) {
     updateTasks();
   }, [task]);
 
-
-
   return (
     <>
       {/* <h1>TaskComponent</h1> */}
