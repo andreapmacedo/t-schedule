@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 // import React, { useState, useRef } from 'react';
-import { schedule } from '../data/schedule';
 import { setTasksOnLocalStorage } from '../data/localStorage';
+import MainContext from '../context/MainContext';
 
 /* a problematica deste componente.
   É preciso ter acesso ao localstorage com todos as tasks para que possa ser
@@ -18,8 +18,10 @@ export default function TaskComponent(props) {
   // const dragOverItem = useRef();  // drag step 3
 
   console.log('props.task', props.task);
-  const [tags, setTags] = useState([props.task.tags]);
-  const [tag, setTag] = useState();
+  const [tags, setTags] = useState(props.task.tags);
+  const [tag, setTag] = useState(''); // controled input
+  const [task, setTask] = useState(props.task);
+  const { tasks, setTasks } = useContext(MainContext);
   // const input = React.createRef();
 
   // // drag step 2
@@ -45,32 +47,67 @@ export default function TaskComponent(props) {
   //   setList(copyListItems);
   // };
   
-  // No controled component (we need to use the ref)
-  const handleSubmit = ({target}) => {
-    //original
-    // alert('A name was submitted: ' + input.current.value);
-    // event.preventDefault();
-    // modified
-    const { value } = target;
-    const newTags = [...tags, value];
-    // setTags(newTags);
-    setTags([...tags, value]);
-    // setTags(...list, value);
+  // const handleSubmit = ({target}) => {
+  //   const { value } = target;
+  //   const newTags = [...tags, value];
+  //   setTags(newTags);
+  // }
+
+  // const updateTask = (task) => {
+  //   const newTasks = tasks.map(t => {
+  //     if(t.id === task.id) {
+  //       const newTask = { ...task, tags: tags}
+
+
+  // const updateTask = (task) => {
+    // const newTasks = tasks.map(t => {
+    //   if(t.id === task.id) {
+
+    //     const newTask = { ...task, tags: tags}
+    //     // const newTask = [...tasks, nextTask];
+    //     setTask(newTask);
+    //     // setTasksOnLocalStorage(newTasks);
+        
+    //   } else {
+    //     return t;
+    //   }
+    // });
+  // }
+
+  const updateTask = () => {
+    const newTask = { ...task, tags: tags}
+    setTask(newTask);
   }
 
-  const localStorageHadler = () => {
-    const localStorage = window.localStorage;
+  const updateTasks = () => {
+    const newTasks = tasks.map(t => {
+      if(t.id === task.id) {
+        return task;
+      } else {
+        return t;
+      }
+    });
+    setTasks(newTasks);
+    setTasksOnLocalStorage(newTasks);
   }
 
-  
   const addTag = () => {
     if(!tag) return; // if tag is empty, return out of the function
-    // if(tags.includes(tag)) return; // if tag is already in the array, return out of the function
+    if(tags.includes(tag)) return; // if tag is already in the array, return out of the function
     const newTags = [...tags, tag];
     setTags(newTags);
-    // setLocalStorage(newTags);
     setTag('');
-   }
+  }
+
+  useEffect(() => {
+    updateTask();
+  }, [tags]);
+
+  useEffect(() => {
+    updateTasks();
+  }, [task]);
+
+
 
   return (
     <>

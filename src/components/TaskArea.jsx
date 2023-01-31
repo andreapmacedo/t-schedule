@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import TaskComponent from "./TaskComponent";
 import { schedule } from '../data/schedule';
+import MainContext from '../context/MainContext';
 
 export default function TaskArea() {
   const [task, setTask] = useState(schedule);
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
+  const { tasks, setTasks } = useContext(MainContext);
 
   const getLocalStorage = () => {
     console.log("getLocalStorage->tasks");

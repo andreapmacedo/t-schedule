@@ -2,15 +2,15 @@ import React, { useState, useMemo } from 'react';
 import MainContext from '../context/MainContext';
 
 function MainProvider({ children }) {
-  // const [users, setUsers] = useState([]);
   const [tags, setTags] = useState([]);
+  const [tasks, setTasks] = useState([]);
   
   const value = useMemo(() => ({
-    // users,
-    // setUsers,
+    tasks,
+    setTasks,
     tags,
     setTags,
-  }), [tags]);
+  }), [tags, tasks]);
 
   return (
     <MainContext.Provider value={ value }>
