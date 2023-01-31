@@ -47,33 +47,6 @@ export default function TaskComponent(props) {
   //   dragOverItem.current = null;
   //   setList(copyListItems);
   // };
-  
-  // const handleSubmit = ({target}) => {
-  //   const { value } = target;
-  //   const newTags = [...tags, value];
-  //   setTags(newTags);
-  // }
-
-  // const updateTask = (task) => {
-  //   const newTasks = tasks.map(t => {
-  //     if(t.id === task.id) {
-  //       const newTask = { ...task, tags: tags}
-
-
-  // const updateTask = (task) => {
-    // const newTasks = tasks.map(t => {
-    //   if(t.id === task.id) {
-
-    //     const newTask = { ...task, tags: tags}
-    //     // const newTask = [...tasks, nextTask];
-    //     setTask(newTask);
-    //     // setTasksOnLocalStorage(newTasks);
-        
-    //   } else {
-    //     return t;
-    //   }
-    // });
-  // }
 
   const updateTask = () => {
     const newTask = { ...task, tags: tags}
@@ -121,16 +94,6 @@ export default function TaskComponent(props) {
       <p>Tag</p>
       <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
       <button onClick={() => addTag()}>Adicionar Tag</button>
-      {/* <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input
-            defaultValue="Bob"
-            type="text"
-            ref={input} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form> */}
       <div>
         {
         tags &&  
