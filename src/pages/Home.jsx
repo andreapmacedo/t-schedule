@@ -1,4 +1,4 @@
-import TagCreator from '../components/TagCreator';
+// import TagCreator from '../components/TagCreator';
 import TaskArea from '../components/TaskArea';
 
 export default function Home(props) {
@@ -6,8 +6,7 @@ export default function Home(props) {
     <>
       <h1>Home</h1>
       <TaskArea />
-      <TagCreator />
-
+      {/* <TagCreator /> */}
     </>
   );
 }
