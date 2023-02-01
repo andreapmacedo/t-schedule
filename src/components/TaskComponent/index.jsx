@@ -3,6 +3,7 @@ import { setTasksOnLocalStorage } from '../../data/localStorage';
 import Modal from "react-modal";
 import MainContext from '../../context/MainContext';
 import TagComponent from '../TagComponent';
+import AddTagComponent from '../AddTagComponent';
 import StyledTaskComponent from './StyledTaskComponent';
 import { setTagsOnLocalStorage, getTagsOnLocalStorage } from '../../data/localStorage';
 
@@ -51,10 +52,11 @@ export default function TaskComponent(props) {
   }
 
   // adicionar tag a task
-  const addTaskTag = () => {
-    if(!tag) return; // if tag is empty, return out of the function
-    if(taskTags.includes(tag)) return; // if tag is already in the array, return out of the function
-    const newTags = [...taskTags, tag];
+  const addTaskTag = (tagName) => {
+    console.log('addTaskTag->tagItem', tagName);
+    if(!tagName) return; // if tag is empty, return out of the function
+    if(taskTags.includes(tagName)) return; // if tag is already in the array, return out of the function
+    const newTags = [...taskTags, tagName];
     setTaskTags(newTags);
     setTag('');
   }
@@ -118,7 +120,9 @@ export default function TaskComponent(props) {
               key={index}
             >  
               {/* {tag} */}
-              <TagComponent tag={tag} remove={removeTag}/>
+              {/* <TagComponent tag={tag} remove={removeTag} add={addTaskTag}/> */}
+              {/* <TagComponent tag={tag} add={addTaskTag}/> */}
+              <AddTagComponent tag={tag} add={addTaskTag}/>
             </div>
           ))}
         </div>
@@ -139,8 +143,6 @@ export default function TaskComponent(props) {
           <button onClick={() => addGlobalTag()}>Adicionar Tag</button>
           <button onClick={() => closeModalAddTag()}>Close internal Modal</button>
         </Modal>
-
-
 
         <h2>Adicionar Tag</h2>
         <button onClick={() => closeModal()}>x</button>
