@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledAddTagComponent = styled.div`
+const StyledAddTagComponent = styled.button`
   display: flex;
   /* justify-content: space-between; */
   

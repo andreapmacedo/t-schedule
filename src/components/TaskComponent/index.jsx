@@ -119,10 +119,7 @@ export default function TaskComponent(props) {
             <div
               key={index}
             >  
-              {/* {tag} */}
-              {/* <TagComponent tag={tag} remove={removeTag} add={addTaskTag}/> */}
-              {/* <TagComponent tag={tag} add={addTaskTag}/> */}
-              <AddTagComponent tag={tag} add={addTaskTag}/>
+              { !taskTags.includes(tag) && <AddTagComponent tag={tag} add={addTaskTag} /> }
             </div>
           ))}
         </div>
