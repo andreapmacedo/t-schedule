@@ -2,8 +2,8 @@ import React from 'react';
 import StyledAddTagComponent from './StyledAddTagComponent';
 
 export default function TagComponent(props) {
-  console.log('props', props);
-  console.log('props.tag', props.tag);
+  // console.log('props', props);
+  // console.log('props.tag', props.tag);
   // esse componente precisa ser modificado para atender as necessidades do projeto atual
 
   return (

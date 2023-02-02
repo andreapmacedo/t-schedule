@@ -14,7 +14,7 @@ export default function TaskArea() {
   const { tasks, setTasks, tags, setTags } = useContext(MainContext);
 
   const getLocalStorage = () => {
-    console.log("getLocalStorage->tasks");
+    // console.log("getLocalStorage->tasks");
     const localStorage = window.localStorage;
     const tasks = localStorage.getItem("tasks");
     if (tasks) {
@@ -32,8 +32,8 @@ export default function TaskArea() {
 
   const createTask = () => {
     const nextTask = { ...task, id: tasks.length + 1}
-    console.log("nextTask", nextTask);
-    console.log("Criando Tarefa");
+    // console.log("nextTask", nextTask);
+    // console.log("Criando Tarefa");
     const newTask = [...tasks, nextTask];
     setTasks(newTask);
     setLocalStorage(newTask);
@@ -48,10 +48,20 @@ export default function TaskArea() {
   //   // setLocalStorage(newTask);
   // };
 
-  const removeTask = () => {
-    console.log("Removendo Tarefa");
-    // const newTask = tasks.filter((t) => t !== task);
-  };
+  // const removeTask = () => {
+  //   console.log("Removendo Tarefa");
+  //   // const newTask = tasks.filter((t) => t !== task);
+  // };
+
+  const removeTask = ({target}) => {
+    const { value } = target;  
+    console.log('removeTask->task', value);
+    const newTasks = tasks.filter((t, index) => (index+1) !== Number(value));
+    console.log('removeTask->newTasks', newTasks);
+    setTasks(newTasks);
+    setLocalStorage(newTasks);
+  }
+
 
   const timeUpdate = () => {
     const durarion = task.timeEnd - task.timeStart;
@@ -89,7 +99,7 @@ export default function TaskArea() {
       <div>
         {tasks.map((task, index) => (
           <div key={index}>
-            <TaskComponent task={task}/>
+            <TaskComponent task={task} remove={removeTask}/>
           </div>
         ))}
       </div>

@@ -8,7 +8,6 @@ import StyledTaskComponent from './StyledTaskComponent';
 import { setTagsOnLocalStorage, getTagsOnLocalStorage } from '../../data/localStorage';
 
 Modal.setAppElement('#root');
-// Modal.setAppElement('*');
 
 export default function TaskComponent(props) {
   const [taskTags, setTaskTags] = useState(props.task.tags);
@@ -51,9 +50,10 @@ export default function TaskComponent(props) {
     setTasksOnLocalStorage(newTasks);
   }
 
+
   // adicionar tag a task
   const addTaskTag = (tagName) => {
-    console.log('addTaskTag->tagItem', tagName);
+    // console.log('addTaskTag->tagItem', tagName);
     if(!tagName) return; // if tag is empty, return out of the function
     if(taskTags.includes(tagName)) return; // if tag is already in the array, return out of the function
     const newTags = [...taskTags, tagName];
@@ -156,6 +156,7 @@ export default function TaskComponent(props) {
           </div>
         ))}
       </div>
+      <button onClick={props.remove} value={task.id} >Remover</button>
     </StyledTaskComponent>
   );
 }

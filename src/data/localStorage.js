@@ -17,7 +17,7 @@ export const setTasksOnLocalStorage = (tasks) => {
 
 
 export const getTagsOnLocalStorage = () => {
-  console.log('getLocalStorage->tags');
+  // console.log('getLocalStorage->tags');
   const localStorage = window.localStorage;
   const tags = localStorage.getItem('tags');
   if (tags) {
