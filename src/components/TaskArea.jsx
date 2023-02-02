@@ -68,19 +68,19 @@ export default function TaskArea() {
 
   const removeTask = ({target}) => {
     const { value } = target;  
-    console.log('removeTask->task', value);
+    
     const newTasks = tasks.filter((t, index) => (index+1) !== Number(value));
-    console.log('removeTask->newTasks', newTasks);
+    
     setTasks(newTasks);
     setLocalStorage(newTasks);
   }
 
   const updateTask = (task) => {
-    console.log('updateTask->task', task);
+    
     const { title, timeStart, timeEnd } = task;
-    console.log('updateTask->title', title);  
-    console.log('updateTask->timeStart', timeStart);  
-    console.log('updateTask->timeEnd', timeEnd);
+    
+    
+    
     setTask({ ...task, title, timeStart, timeEnd });
     setModalModeUpdate(true);
     openModal();  
@@ -90,11 +90,11 @@ export default function TaskArea() {
     // setLocalStorage(newTasks);
   }
   const setUpdateTask = () => {
-    console.log('setUpdateTask->task', task);
+    // console.log('setUpdateTask->task', task);
     const { title, timeStart, timeEnd } = task;
-    console.log('setUpdateTask->title', title);
-    console.log('setUpdateTask->timeStart', timeStart);
-    console.log('setUpdateTask->timeEnd', timeEnd);
+    // console.log('setUpdateTask->title', title);
+    // console.log('setUpdateTask->timeStart', timeStart);
+    // console.log('setUpdateTask->timeEnd', timeEnd);
     const newTasks = tasks.map((t, index) => {
       if (t.id === task.id) {
         return { ...t, title, timeStart, timeEnd, duration: timeEnd - timeStart };
