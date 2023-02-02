@@ -157,6 +157,7 @@ export default function TaskComponent(props) {
         ))}
       </div>
       <button onClick={props.remove} value={task.id} >Remover</button>
+      <button onClick={() => props.update(task)} >Editar</button>
     </StyledTaskComponent>
   );
 }
