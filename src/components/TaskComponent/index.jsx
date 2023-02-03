@@ -15,6 +15,7 @@ export default function TaskComponent(props) {
   const [task, setTask] = useState(props.task);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalAddTagIsOpen, setModalAddTagIsOpen] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const { tasks, setTasks, tags, setTags } = useContext(MainContext);
 
   const openModal = () => {
@@ -63,16 +64,30 @@ export default function TaskComponent(props) {
 
   const addGlobalTag = () => {
     if(!tag) return; // if tag is empty, return out of the function
-    if(tags.includes(tag)) return; // if tag is already in the array, return out of the function
+    // if(tags.includes(tag)) return; // if tag is already in the array, return out of the function
+    if(tags.includes(tag)) {
+      alert('tag já existe e já foi adicionada à tarefa!');
+      setTag('');
+      return;
+    }; // if tag is already in the array, return out of the function
     const newTags = [...tags, tag];
     setTags(newTags);
     setTag('');
     setTagsOnLocalStorage(newTags);
+    closeModalAddTag();
   }
 
   const removeTag = (tagItem) => {
     const newTags = taskTags.filter((t) => t !== tagItem);
     setTaskTags(newTags);
+  }
+
+  const setButtonStatus = () => {
+    if(tag) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
   }
 
   useEffect(() => {
@@ -82,6 +97,10 @@ export default function TaskComponent(props) {
   useEffect(() => {
     updateTasks();
   }, [task]);
+  
+  useEffect(() => {
+    setButtonStatus();
+  }, [tag]);
 
   return (
     <StyledTaskComponent>
@@ -137,8 +156,8 @@ export default function TaskComponent(props) {
           <h2>modal interno</h2>
           <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
           {/* <button onClick={() => addTaskTag()}>Adicionar Tag</button> */}
-          <button onClick={() => addGlobalTag()}>Adicionar Tag</button>
-          <button onClick={() => closeModalAddTag()}>Close internal Modal</button>
+          <button onClick={() => addGlobalTag()} disabled={buttonDisabled}>Adicionar Tag</button>
+          <button onClick={() => closeModalAddTag()}>X</button>
         </Modal>
 
         <h2>Adicionar Tag</h2>
