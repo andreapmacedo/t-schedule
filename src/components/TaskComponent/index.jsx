@@ -36,14 +36,18 @@ export default function TaskComponent(props) {
   }
 
   const updateTask = () => {
-    const newTask = { ...props.task, tags: taskTags}
+    const newTask = { ...task, tags: taskTags}
+    // const newTask = { ...task, tags: taskTags}
+    // console.log('updateTask->newTask', newTask);
     setTask(newTask);
+    setTasksOnLocalStorage(newTask);
   }
 
   const updateTasks = () => {
+    // console.log('updateTasks->props.task', task);
     const newTasks = tasks.map(t => {
-      if(t.id === props.task.id) {
-        return props.task;
+      if(t.id === task.id) {
+        return task;
       } else {
         return t;
       }
@@ -104,28 +108,28 @@ export default function TaskComponent(props) {
   }, [tag]);
 
 
-  const update = (task) => {
-    const taskFound = tasks.filter((t) => t.id === task.id);
-    const { title, timeStart, timeEnd } = taskFound[0];
-    setTask({ ...task, title, timeStart, timeEnd });
-    // setModalModeUpdate(true);
-    // openModal();  
-  }
+  // const update = (task) => {
+  //   const taskFound = tasks.filter((t) => t.id === task.id);
+  //   const { title, timeStart, timeEnd } = taskFound[0];
+  //   setTask({ ...task, title, timeStart, timeEnd });
+  //   // setModalModeUpdate(true);
+  //   // openModal();  
+  // }
 
-  const remove = (task) => {
-    console.log("Removendo Tarefa");
+  // const remove = (task) => {
+  //   console.log("Removendo Tarefa");
     
-    // const newTasks = tasks.filter((t) => Number(t.id) !== Number(task.id));
-    const newTasks = tasks.filter((t) => t.title !== task.title);
-    console.log('task.title', task.title);
-    tasks.filter((t) => {
-      console.log('t.title', t.title);
-      // Number(t.id) !== Number(task.id)
-    });
+  //   // const newTasks = tasks.filter((t) => Number(t.id) !== Number(task.id));
+  //   const newTasks = tasks.filter((t) => t.title !== task.title);
+  //   console.log('task.title', task.title);
+  //   tasks.filter((t) => {
+  //     console.log('t.title', t.title);
+  //     // Number(t.id) !== Number(task.id)
+  //   });
 
-    setTasks(newTasks);
-    setTasksOnLocalStorage(newTasks);
-  };
+  //   setTasks(newTasks);
+  //   setTasksOnLocalStorage(newTasks);
+  // };
 
   // useEffect(() => {
   //   console.log('taskTags', taskTags);
@@ -142,7 +146,7 @@ export default function TaskComponent(props) {
           <h1>{props.task.title}</h1>
         </div>
         <div className="item-description">
-          <p>Duraçaão:</p>
+          <p>Duração:</p>
           <h1>{props.task.duration}</h1>
         </div>
       </div>

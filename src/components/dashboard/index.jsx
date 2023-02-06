@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import MainContext from '../../context/MainContext';
-// import { resume } from '../../data';
-
-// const resume = {
-//   tag: '',
-//   total: 0,
-//   occurrences: 0,
-// }
-
 
 export default function Dashboard() {
   const { tasks, setTasks, tags, setTags } = useContext(MainContext);
@@ -31,12 +23,14 @@ export default function Dashboard() {
    */
 
   const updateResume = () => {
+    console.log('tasks', tasks);
     const allTaskByTag = [];
     // const allTags = [];
     tasks.map(task => {
       return task.tags.map(tag => {
         // allTags.push({tag, duration: task.time});
-        allTaskByTag.push({tag, duration: task.duration});
+        console.log('tag', tag);
+        allTaskByTag.push({tag, duration: Number(task.duration)});
       });
     });
     
@@ -57,7 +51,7 @@ export default function Dashboard() {
           return (
             <div key={index}>
               <p>{item.tag}</p>
-              <p>{item.duration}</p>
+              <p>{item.duration?.toFixed(2)}</p>
             </div>
           )  
         })

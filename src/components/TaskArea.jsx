@@ -74,42 +74,15 @@ export default function TaskArea() {
     const newTasks = tasks.filter((t) => Number(t.id) !== Number(value));
     console.log("tasks", value);
     // const newTasks = tasks.filter((t) => t.title !== value);
-    
-    
-    console.log("newTasks", newTasks);
-    // const newTasks = tasks.filter((t) => Number(t.id) !== Number(task.id));
-    // const newTasks = tasks.filter((t) => {
-    //   console.log(t.id, taskId);
-    //   // console.log(t.id, task.id);
-    //   // Number(t.id) !== Number(task.id)
-    // });
-
     setTasks(newTasks);
     setLocalStorage(newTasks);
     // setTaskUpdade(!taskUpdade);
   };
 
-
-  /**
-   * esta implementaçao abaixo está correta, porém, a task que vem como parametro é advinda de uma props que não é atualizada
-   * fazendo com que após uma atualização, o valor da task não seja atualizado, e sim, o valor da task que foi passada como parametro
-   */
-  // const updateTask = (task) => {
-  //   const { title, timeStart, timeEnd } = task;
-  //   setTask({ ...task, title, timeStart, timeEnd });
-  //   setModalModeUpdate(true);
-  //   openModal();  
-  // }
-
-  /**
-   * esta implementaçao está funcionando corretamente pois os dados que estão no contexto são os que já foram atualizados
-   * utilizamos a task apenas para identificar qual task será atualizada
-   */
-
   let getDifference = (time1, time2) => {
     let [h1, m1] = time1.split(':')
     let [h2, m2] = time2.split(':')
-    let time = (+h1 + (+m1 / 60)*0.6) - (+h2 + (+m2 / 60)*0.6)
+    let time = Number((+h1 + (+m1 / 60)*0.6) - (+h2 + (+m2 / 60)*0.6)).toFixed(2)
     return time
   }
   
@@ -129,10 +102,10 @@ export default function TaskArea() {
     const { title, timeStart, timeEnd } = task;
     const newTasks = tasks.map((t) => {
       if (t.id === task.id) {
-        const duration = (timeEnd - timeStart)
-        // const duration = getDifference(timeEnd, timeStart)
+        // const duration = (timeEnd - timeStart)
+        const duration = getDifference(timeEnd, timeStart)
         // return { ...t, title, timeStart, timeEnd, duration: duration };
-        return { ...t, title, timeStart, timeEnd, duration: duration };
+        return { ...t, title, timeStart, timeEnd, duration };
       }
       return t;
     });
@@ -146,9 +119,11 @@ export default function TaskArea() {
 
   const timeUpdate = () => {
     // const durarion = task.timeEnd - task.timeStart;
-    const duration = (task.timeEnd - task.timeStart)
-    // const durarion = getDifference(task.timeEnd, task.timeStart)
-    setTask({ ...task, duration: duration });
+    // const duration = (task.timeEnd - task.timeStart)
+    const duration = getDifference(task.timeEnd, task.timeStart)
+    // setTask({ ...task, duration: task.timeEnd - task.timeStart });
+    setTask({ ...task, duration });
+
   };
 
   useEffect(() => {
@@ -212,8 +187,6 @@ export default function TaskArea() {
         {tasks.map((task, index) => (
           <div key={index}>
             <TaskComponent task={task} remove={removeTask} update={updateTask}/>
-            {/* <TaskComponent task={task} update={updateTask}/> */}
-            {/* <TaskComponent task={task} /> */}
           </div>
         ))}
       </div>

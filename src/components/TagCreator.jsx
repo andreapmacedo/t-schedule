@@ -19,7 +19,7 @@ export default function TagCreator() {
   // const { tags, setTags } = useContext(MainContext);
 
   const getLocalStorage = () => {
-    console.log('getLocalStorage->tags');
+    // console.log('getLocalStorage->tags');
     const localStorage = window.localStorage;
     const tags = localStorage.getItem('tags');
     if (tags) {
