@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { setTasksOnLocalStorage } from '../../data/localStorage';
 import Modal from "react-modal";
 import MainContext from '../../context/MainContext';
 import TagComponent from '../TagComponent';
 import AddTagComponent from '../AddTagComponent';
 import StyledTaskComponent from './StyledTaskComponent';
-import { setTagsOnLocalStorage, getTagsOnLocalStorage } from '../../data/localStorage';
+import { setTagsOnLocalStorage,
+  setTasksOnLocalStorage,
+  getTasksOnLocalStorage } from '../../data/localStorage';
 
 Modal.setAppElement('#root');
 
@@ -35,14 +36,14 @@ export default function TaskComponent(props) {
   }
 
   const updateTask = () => {
-    const newTask = { ...task, tags: taskTags}
+    const newTask = { ...props.task, tags: taskTags}
     setTask(newTask);
   }
 
   const updateTasks = () => {
     const newTasks = tasks.map(t => {
-      if(t.id === task.id) {
-        return task;
+      if(t.id === props.task.id) {
+        return props.task;
       } else {
         return t;
       }
@@ -101,6 +102,35 @@ export default function TaskComponent(props) {
   useEffect(() => {
     setButtonStatus();
   }, [tag]);
+
+
+  const update = (task) => {
+    const taskFound = tasks.filter((t) => t.id === task.id);
+    const { title, timeStart, timeEnd } = taskFound[0];
+    setTask({ ...task, title, timeStart, timeEnd });
+    // setModalModeUpdate(true);
+    // openModal();  
+  }
+
+  const remove = (task) => {
+    console.log("Removendo Tarefa");
+    
+    // const newTasks = tasks.filter((t) => Number(t.id) !== Number(task.id));
+    const newTasks = tasks.filter((t) => t.title !== task.title);
+    console.log('task.title', task.title);
+    tasks.filter((t) => {
+      console.log('t.title', t.title);
+      // Number(t.id) !== Number(task.id)
+    });
+
+    setTasks(newTasks);
+    setTasksOnLocalStorage(newTasks);
+  };
+
+  // useEffect(() => {
+  //   console.log('taskTags', taskTags);
+  //   setTasks(getTasksOnLocalStorage());
+  // }, [remove]);
 
   return (
     <StyledTaskComponent>
@@ -175,8 +205,11 @@ export default function TaskComponent(props) {
           </div>
         ))}
       </div>
-      <button onClick={props.remove} value={task.id} >Remover</button>
-      <button onClick={() => props.update(task)} >Editar</button>
+      {/* <button onClick={() => remove(task)} >Remover</button> */}
+      {/* <button onClick={() => update(task)} >Editar</button> */}
+      <button onClick={props.remove} value={props.task.id} >Remover</button>
+      {/* <button onClick={props.remove} value={props.task.title} >Remover</button> */}
+      <button onClick={() => props.update(props.task)} >Editar</button>
     </StyledTaskComponent>
   );
 }

@@ -13,42 +13,55 @@ export default function Dashboard() {
   const { tasks, setTasks, tags, setTags } = useContext(MainContext);
   const [resume, setResume] = useState();
 
-  // const updateResume = () => {
-  //   const resumes = [];
-  //   const newResume = {
-  //     tag: '',
-  //     total: 0,
-  //     occurrences: 0,
-  //   };
+  const balance = (tasks) => {
+    const total = tasks.reduce((acc, cur) => {
+      const index = acc.findIndex((task) => task.tag === cur.tag);
+      if (index === -1) {
+        acc.push({tag: cur.tag, duration: cur.duration});
+      } else {
+        acc[index].duration += cur.duration;
+      }
+      return acc;
+    }, []);
+    return total;
+  }
+
+  /**
+   * Percorre todas as tasks e todas as tags de cada task
+   */
+
+  const updateResume = () => {
+    const allTaskByTag = [];
+    // const allTags = [];
+    tasks.map(task => {
+      return task.tags.map(tag => {
+        // allTags.push({tag, duration: task.time});
+        allTaskByTag.push({tag, duration: task.duration});
+      });
+    });
     
-  //   tasks.map(task => {
-  //     return task.tags.map(tag => {
-  //       return {newResume.tag = tag
-  //       newResume.total += task.time;
-  //       newResume.occurrences += 1;
-  //       resumes.push(newResume);
-  //     });
-  //   });
-  //   // tasks.map (task => {
-  //   //   task.tags.map(tag => {newResume.tag = tag
-  //   //     newResume.total += task.time;
-  //   //     newResume.occurrences += 1;
-  //   //     resumes.push(newResume);
-  //   //   });
-  //   // });
-  //   console.log('resumes', resumes);
-  //   setResume(resumes);
-  // }
+    const resume = balance(allTaskByTag)
+    console.log('resume', resume);
+    setResume(resume);
+  }
 
-
-  // useEffect(() => {
-  //   updateResume();
-  // }, [tasks]);
+  useEffect(() => {
+    updateResume();
+  }, [tasks]);
 
   
   return (
     <>
-      <h1>resume</h1>
+      {resume && 
+        resume.map((item, index) => {
+          return (
+            <div key={index}>
+              <p>{item.tag}</p>
+              <p>{item.duration}</p>
+            </div>
+          )  
+        })
+      }
     </>
   );
 }

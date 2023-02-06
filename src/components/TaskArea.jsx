@@ -46,7 +46,15 @@ export default function TaskArea() {
 
 
   const createTask = () => {
-    const nextTask = { ...task, id: tasks.length + 1}
+    // tasks.sort((a, b) => a.id - b.id);
+    // console.log("tasks", tasks);
+    const maxId = tasks.reduce ((acc, cur) => {
+      if (acc < cur.id) {
+        acc = cur.id;
+      }
+      return acc;
+    }, 0);
+    const nextTask = { ...task, id: maxId + 1}
     // console.log("nextTask", nextTask);
     // console.log("Criando Tarefa");
     const newTask = [...tasks, nextTask];
@@ -61,24 +69,26 @@ export default function TaskArea() {
    * fazendo com que após uma atualização, o valor da task não seja atualizado, e sim, o valor da task que foi passada como parametro
    */
   
-  // const removeTask = () => {
-  //   console.log("Removendo Tarefa");
-  //   // const newTask = tasks.filter((t) => t !== task);
-  // };
-
-  /**
-   * a implementação com esta estratégia foi a opção para resolver o problema gerado por estar recebendo o parametro desatulaizado
-   * ja que o mesmo é advindo de uma props que não é atualizada
-   */
-  
   const removeTask = ({target}) => {
     const { value } = target;  
+    const newTasks = tasks.filter((t) => Number(t.id) !== Number(value));
+    console.log("tasks", value);
+    // const newTasks = tasks.filter((t) => t.title !== value);
     
-    const newTasks = tasks.filter((t, index) => (index+1) !== Number(value));
     
+    console.log("newTasks", newTasks);
+    // const newTasks = tasks.filter((t) => Number(t.id) !== Number(task.id));
+    // const newTasks = tasks.filter((t) => {
+    //   console.log(t.id, taskId);
+    //   // console.log(t.id, task.id);
+    //   // Number(t.id) !== Number(task.id)
+    // });
+
     setTasks(newTasks);
     setLocalStorage(newTasks);
-  }
+    // setTaskUpdade(!taskUpdade);
+  };
+
 
   /**
    * esta implementaçao abaixo está correta, porém, a task que vem como parametro é advinda de uma props que não é atualizada
@@ -96,6 +106,15 @@ export default function TaskArea() {
    * utilizamos a task apenas para identificar qual task será atualizada
    */
 
+  let getDifference = (time1, time2) => {
+    let [h1, m1] = time1.split(':')
+    let [h2, m2] = time2.split(':')
+    let time = (+h1 + (+m1 / 60)*0.6) - (+h2 + (+m2 / 60)*0.6)
+    return time
+  }
+  
+  // console.log(getDifference("10:00", "08:30"))
+
   const updateTask = (task) => {
     const taskFound = tasks.filter((t) => t.id === task.id);
     const { title, timeStart, timeEnd } = taskFound[0];
@@ -110,7 +129,10 @@ export default function TaskArea() {
     const { title, timeStart, timeEnd } = task;
     const newTasks = tasks.map((t) => {
       if (t.id === task.id) {
-        return { ...t, title, timeStart, timeEnd, duration: timeEnd - timeStart };
+        const duration = (timeEnd - timeStart)
+        // const duration = getDifference(timeEnd, timeStart)
+        // return { ...t, title, timeStart, timeEnd, duration: duration };
+        return { ...t, title, timeStart, timeEnd, duration: duration };
       }
       return t;
     });
@@ -123,8 +145,10 @@ export default function TaskArea() {
   }
 
   const timeUpdate = () => {
-    const durarion = task.timeEnd - task.timeStart;
-    setTask({ ...task, duration: durarion });
+    // const durarion = task.timeEnd - task.timeStart;
+    const duration = (task.timeEnd - task.timeStart)
+    // const durarion = getDifference(task.timeEnd, task.timeStart)
+    setTask({ ...task, duration: duration });
   };
 
   useEffect(() => {
@@ -136,6 +160,10 @@ export default function TaskArea() {
     timeUpdate();
   }, [task.timeStart, task.timeEnd]);
 
+
+  /**
+   * a diferença desta implementação para o modelo abaixo é o tratamento especial para os inputs que são do tipo dateType
+   */
   const handleTaskChange = ({target}) => {
     const { value, name } = target;
     // if (name === 'title') {
@@ -143,6 +171,16 @@ export default function TaskArea() {
     // }
     setTask({...task, [name]: value });
   };
+  // /**
+  //  * esta implementação permite que vários inputs sejam atualizados de forma dinamica e funciona corretamente
+  //  */
+  // const handleTaskChange = ({target}) => {
+  //   const { value, name } = target;
+  //   // if (name === 'title') {
+  //   //   setTask({...task, title: value });
+  //   // }
+  //   setTask({...task, [name]: value });
+  // };
 
   return (
     <>
@@ -159,9 +197,9 @@ export default function TaskArea() {
         <p>Title</p>
         <input name="title" type="text" onChange={handleTaskChange} value={task.title}/>
         <p>Time start</p>
-        <input name="timeStart" type="text" onChange={handleTaskChange} value={task.timeStart}/>
+        <input name="timeStart" type="time" onChange={handleTaskChange} value={task.timeStart}/>
         <p>Time end</p>
-        <input name="timeEnd" type="text" onChange={handleTaskChange} value={task.timeEnd}/>
+        <input name="timeEnd" type="time" onChange={handleTaskChange} value={task.timeEnd}/>
         <p>duration: {task.duration}</p>
         {modalModeUpdate ? 
           <button onClick={() => setUpdateTask()}>Atualizar Tarefa</button> :
@@ -174,6 +212,8 @@ export default function TaskArea() {
         {tasks.map((task, index) => (
           <div key={index}>
             <TaskComponent task={task} remove={removeTask} update={updateTask}/>
+            {/* <TaskComponent task={task} update={updateTask}/> */}
+            {/* <TaskComponent task={task} /> */}
           </div>
         ))}
       </div>
