@@ -5,3 +5,9 @@ export const schedule = {
   timeEnd : '',
   duration : '',
 }
+
+export const resume = {
+  tag: '',
+  total: 0,
+  occurrences: 0,
+}
