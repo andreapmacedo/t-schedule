@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+// const StyledTaskComponent = styled.button`
 const StyledTaskComponent = styled.div`
   display: flex;
   /* justify-content: space-between; */
