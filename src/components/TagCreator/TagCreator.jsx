@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import MainContext from '../context/MainContext';
+import MainContext from '../../context/MainContext';
 import TagComponent from './TagComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
