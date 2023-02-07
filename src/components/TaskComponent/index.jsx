@@ -44,7 +44,6 @@ export default function TaskComponent(props) {
   }
 
   const updateTasks = () => {
-    // console.log('updateTasks->props.task', task);
     const newTasks = tasks.map(t => {
       if(t.id === task.id) {
         return task;
@@ -52,6 +51,16 @@ export default function TaskComponent(props) {
         return t;
       }
     });
+    // // newTasks.sort((a, b) => a.timeStart - b.timeStart);
+
+    newTasks.sort((a, b) => {
+      let [h1, m1] = a.timeStart.split(':')
+      let [h2, m2] = b.timeStart.split(':')
+      return (h1 - h2) || (m1 - m2)
+    });
+    
+    // // newTasks.sort((a, b) => b.id - a.id);
+    // // newTasks.sort((a, b) => a.id - b.id);
     setTasks(newTasks);
     setTasksOnLocalStorage(newTasks);
   }
@@ -145,19 +154,28 @@ export default function TaskComponent(props) {
           <p>Atividade:</p>
           <h1>{props.task.title}</h1>
         </div>
+        <div className="item-start-end">
+          <span>
+            <p>Início:</p>
+            <h1>{props.task.timeStart}</h1>
+          </span>
+          <span>
+            <p>Fim:</p>
+            <h1>{props.task.timeEnd}</h1>
+          </span>
+        </div>
         <div className="item-description">
           <p>Duração:</p>
           <h1>{props.task.duration}</h1>
         </div>
       </div>
       
-      <p>Tag</p>
       {/* modo simples e antigo de adicionar diretamente uma tag */}
       {/* <input type="text" value={tag} onChange={e => setTag(e.target.value)} /> */}
       {/* <button onClick={() => addTaskTag()}>Adicionar Tag</button> */}
       
       {/* modal externo de adiçao de tag */}
-      <button onClick={() => openModal()}>Adicionar Tag by modal</button>
+      <button onClick={() => openModal()}>Adicionar Tag</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

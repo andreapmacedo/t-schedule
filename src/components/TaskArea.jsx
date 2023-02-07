@@ -46,8 +46,6 @@ export default function TaskArea() {
 
 
   const createTask = () => {
-    // tasks.sort((a, b) => a.id - b.id);
-    // console.log("tasks", tasks);
     const maxId = tasks.reduce ((acc, cur) => {
       if (acc < cur.id) {
         acc = cur.id;
@@ -55,8 +53,6 @@ export default function TaskArea() {
       return acc;
     }, 0);
     const nextTask = { ...task, id: maxId + 1}
-    // console.log("nextTask", nextTask);
-    // console.log("Criando Tarefa");
     const newTask = [...tasks, nextTask];
     setTasks(newTask);
     setLocalStorage(newTask);
@@ -82,12 +78,14 @@ export default function TaskArea() {
   let getDifference = (time1, time2) => {
     let [h1, m1] = time1.split(':')
     let [h2, m2] = time2.split(':')
-    let time = Number((+h1 + (+m1 / 60)*0.6) - (+h2 + (+m2 / 60)*0.6)).toFixed(2)
+    if (m1 < m2) {
+      m1 = 60 + Number(m1)
+      h1 = Number(h1) - 1
+    }
+    const time = `${Number(h1)-Number(h2)}:${Number(m1)-Number(m2)}`
     return time
   }
   
-  // console.log(getDifference("10:00", "08:30"))
-
   const updateTask = (task) => {
     const taskFound = tasks.filter((t) => t.id === task.id);
     const { title, timeStart, timeEnd } = taskFound[0];
@@ -118,7 +116,7 @@ export default function TaskArea() {
   }
 
   const timeUpdate = () => {
-    // const durarion = task.timeEnd - task.timeStart;
+    // const duration = task.timeEnd - task.timeStart;
     // const duration = (task.timeEnd - task.timeStart)
     const duration = getDifference(task.timeEnd, task.timeStart)
     // setTask({ ...task, duration: task.timeEnd - task.timeStart });

@@ -23,19 +23,17 @@ export default function Dashboard() {
    */
 
   const updateResume = () => {
-    console.log('tasks', tasks);
     const allTaskByTag = [];
     // const allTags = [];
     tasks.map(task => {
       return task.tags.map(tag => {
         // allTags.push({tag, duration: task.time});
-        console.log('tag', tag);
         allTaskByTag.push({tag, duration: Number(task.duration)});
       });
     });
     
     const resume = balance(allTaskByTag)
-    console.log('resume', resume);
+    // console.log('resume', resume);
     setResume(resume);
   }
 
