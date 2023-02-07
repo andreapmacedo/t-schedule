@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import Modal from "react-modal";
 import MainContext from '../../context/MainContext';
 import TagComponent from '../TagComponent';
-import AddTagComponent from '../AddTagComponent';
+import AddTagComponent from '../AddTagComponent/AddTagComponent';
 import StyledTaskComponent from './StyledTaskComponent';
 import { setTagsOnLocalStorage,
   setTasksOnLocalStorage,
