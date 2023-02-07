@@ -1,10 +1,21 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import MainContext from '../../context/MainContext';
 import StyledAddTagComponent from './StyledAddTagComponent';
+import { setTagsOnLocalStorage } from '../../data/localStorage';
 
 export default function TagComponent(props) {
-  // console.log('props', props);
-  // console.log('props.tag', props.tag);
-  // esse componente precisa ser modificado para atender as necessidades do projeto atual
+  const { tags, setTags } = useContext(MainContext);
+    
+
+  /**
+   * o próprio componente é do tipo button
+   */
+  const removeTag = (tag) => {
+    console.log('removeTag', tag);
+    tags.splice(tags.indexOf(tag), 1);
+    setTags([...tags]);
+    setTagsOnLocalStorage(tags);
+  }
 
   return (
     <StyledAddTagComponent onClick={() => props.add(props.tag)} >
@@ -16,9 +27,9 @@ export default function TagComponent(props) {
       <button onClick={() => props.add(props.tag)}>
         <h4>add</h4>
       </button> */}
-      {/* <button onClick={() => props.add(props.tag)}>
-        <h4>renomear</h4>
-      </button> */}
+      <button onClick={() => removeTag(props.tag)}>
+        <h4>excluir</h4>
+      </button>
       
     </StyledAddTagComponent>
 
