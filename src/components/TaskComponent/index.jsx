@@ -51,15 +51,16 @@ export default function TaskComponent(props) {
         return t;
       }
     });
-    // newTasks.sort((a, b) => a.timeStart - b.timeStart);
+    // // newTasks.sort((a, b) => a.timeStart - b.timeStart);
+
     newTasks.sort((a, b) => {
       let [h1, m1] = a.timeStart.split(':')
       let [h2, m2] = b.timeStart.split(':')
       return (h1 - h2) || (m1 - m2)
     });
-    // newTasks.sort((a, b) => b.id - a.id);
-    // newTasks.sort((a, b) => a.id - b.id);
-    console.log("newTasks", newTasks);
+    
+    // // newTasks.sort((a, b) => b.id - a.id);
+    // // newTasks.sort((a, b) => a.id - b.id);
     setTasks(newTasks);
     setTasksOnLocalStorage(newTasks);
   }
@@ -169,13 +170,12 @@ export default function TaskComponent(props) {
         </div>
       </div>
       
-      <p>Tag</p>
       {/* modo simples e antigo de adicionar diretamente uma tag */}
       {/* <input type="text" value={tag} onChange={e => setTag(e.target.value)} /> */}
       {/* <button onClick={() => addTaskTag()}>Adicionar Tag</button> */}
       
       {/* modal externo de adiçao de tag */}
-      <button onClick={() => openModal()}>Adicionar Tag by modal</button>
+      <button onClick={() => openModal()}>Adicionar Tag</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
