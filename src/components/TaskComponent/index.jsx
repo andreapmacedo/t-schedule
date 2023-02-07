@@ -66,14 +66,22 @@ export default function TaskComponent(props) {
   }
 
 
-  // adicionar tag a task
+  // adicionar tag a task (o B.O tá aqui)
   const addTaskTag = (tagName) => {
-    // console.log('addTaskTag->tagItem', tagName);
-    if(!tagName) return; // if tag is empty, return out of the function
-    if(taskTags.includes(tagName)) return; // if tag is already in the array, return out of the function
+    console.log('addTaskTag->tagItem', tagName);
+    console.log('addTaskTag->taskTags', props.task);
+    // if(!tagName) return; // if tag is empty, return out of the function // não precisa disso, pois o botão só é habilitado se a tag não for vazia
+    // if(taskTags.includes(tagName)) return; // if tag is already in the array, return out of the function
+    
+    // o B.O tá aqui ( ele precisa adicionar a tag na task correta e depois atualizar a task no localStorage)
     const newTags = [...taskTags, tagName];
+    // const newTags = [...props.task.tags, tagName];
+    const newTask = { ...props.task, tags: newTags}
+    // setTasks(newTask);
+    setTasksOnLocalStorage(newTask);
+
     setTaskTags(newTags);
-    setTag('');
+    // setTag(''); // limpa o input // não precisa disso, pois o input é limpo quando o modal é fechado
   }
 
   const addGlobalTag = () => {
@@ -145,8 +153,12 @@ export default function TaskComponent(props) {
   //   setTasks(getTasksOnLocalStorage());
   // }, [remove]);
 
+  const showInfo = () => {
+    console.log("props.task", props.task);
+  }
+
   return (
-    <StyledTaskComponent>
+    <StyledTaskComponent onClick={() => showInfo() }>
       {/* <h1>TaskComponent</h1> */}
       
       <div className="task-description" >

@@ -73,7 +73,7 @@ export default function TaskArea() {
   let getDifference = (time1, time2) => {
     let [h1, m1] = time1.split(':')
     let [h2, m2] = time2.split(':')
-    if (m1 < m2) {
+    if (Number(m1) < Number(m2)) {
       m1 = 60 + Number(m1)
       h1 = Number(h1) - 1
     }
