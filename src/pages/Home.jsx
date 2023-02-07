@@ -1,5 +1,5 @@
 // import TagCreator from '../components/TagCreator';
-import TaskArea from '../components/TaskArea';
+import TaskArea from '../components/TaskArea/TaskArea';
 
 export default function Home(props) {
   return (
