@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
-import TaskComponent from "./TaskComponent";
+import TaskComponent from "./TaskComponent/TaskComponent";
 import { schedule } from '../data';
 import MainContext from '../context/MainContext';
-import Dashboard from './dashboard';
+import Dashboard from './Dashboard/Dashboard';
 import Modal from "react-modal";
 import { getTagsOnLocalStorage } from '../data/localStorage';
 
