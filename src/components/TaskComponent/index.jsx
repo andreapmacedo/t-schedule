@@ -145,6 +145,16 @@ export default function TaskComponent(props) {
           <p>Atividade:</p>
           <h1>{props.task.title}</h1>
         </div>
+        <div className="item-start-end">
+          <span>
+            <p>Início:</p>
+            <h1>{props.task.timeStart}</h1>
+          </span>
+          <span>
+            <p>Fim:</p>
+            <h1>{props.task.timeEnd}</h1>
+          </span>
+        </div>
         <div className="item-description">
           <p>Duração:</p>
           <h1>{props.task.duration}</h1>
