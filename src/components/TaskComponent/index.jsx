@@ -44,7 +44,6 @@ export default function TaskComponent(props) {
   }
 
   const updateTasks = () => {
-    // console.log('updateTasks->props.task', task);
     const newTasks = tasks.map(t => {
       if(t.id === task.id) {
         return task;
@@ -52,6 +51,15 @@ export default function TaskComponent(props) {
         return t;
       }
     });
+    // newTasks.sort((a, b) => a.timeStart - b.timeStart);
+    newTasks.sort((a, b) => {
+      let [h1, m1] = a.timeStart.split(':')
+      let [h2, m2] = b.timeStart.split(':')
+      return (h1 - h2) || (m1 - m2)
+    });
+    // newTasks.sort((a, b) => b.id - a.id);
+    // newTasks.sort((a, b) => a.id - b.id);
+    console.log("newTasks", newTasks);
     setTasks(newTasks);
     setTasksOnLocalStorage(newTasks);
   }
