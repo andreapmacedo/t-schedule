@@ -15,6 +15,7 @@ export default function TaskComponent(props) {
   const [tag, setTag] = useState(''); // controled input
   const [task, setTask] = useState(props.task);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [sortOn, setSortOn] = useState(false);
   const [modalAddTagIsOpen, setModalAddTagIsOpen] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const { tasks, setTasks, tags, setTags } = useContext(MainContext);
@@ -36,39 +37,59 @@ export default function TaskComponent(props) {
   }
 
   const updateTask = () => {
-    const newTask = { ...task, tags: taskTags}
+    // const newTask = { ...task, tags: taskTags}
+    const newTask = { ...props.task, tags: taskTags}
     // const newTask = { ...task, tags: taskTags}
     // console.log('updateTask->newTask', newTask);
+    // console.log('updateTask->taskTags', taskTags);
     setTask(newTask);
     setTasksOnLocalStorage(newTask);
   }
 
   const updateTasks = () => {
-    const newTasks = tasks.map(t => {
+    // const newTasks = tasks.map(t => {
+    //   if(t.id === task.id) {
+    //     return task;
+    //   } else {
+    //     return t;
+    //   }
+    // });
+    // // newTasks.sort((a, b) => a.timeStart - b.timeStart);
+
+
+
+    // tasks.sort((a, b) => {
+    //   let [h1, m1] = a.timeStart.split(':')
+    //   let [h2, m2] = b.timeStart.split(':')
+    //   return (Number(h1) - Number(h2)) || (Number(m1) - Number(m2))
+    // });
+
+    let newTasks = tasks.map(t => {
       if(t.id === task.id) {
         return task;
       } else {
         return t;
       }
     });
-    // // newTasks.sort((a, b) => a.timeStart - b.timeStart);
 
     newTasks.sort((a, b) => {
       let [h1, m1] = a.timeStart.split(':')
       let [h2, m2] = b.timeStart.split(':')
-      return (h1 - h2) || (m1 - m2)
-    });
-    
+      return (Number(h1) - Number(h2)) || (Number(m1) - Number(m2))
+    });    
+
     // // newTasks.sort((a, b) => b.id - a.id);
     // // newTasks.sort((a, b) => a.id - b.id);
+    
     setTasks(newTasks);
     setTasksOnLocalStorage(newTasks);
+    
   }
 
 
   // adicionar tag a task (o B.O tá aqui)
   const addTaskTag = (tagName) => {
-    console.log('addTaskTag->tagItem', tagName);
+    // console.log('addTaskTag->tagItem', tagName);
     console.log('addTaskTag->taskTags', props.task);
     // if(!tagName) return; // if tag is empty, return out of the function // não precisa disso, pois o botão só é habilitado se a tag não for vazia
     // if(taskTags.includes(tagName)) return; // if tag is already in the array, return out of the function
@@ -77,10 +98,11 @@ export default function TaskComponent(props) {
     const newTags = [...taskTags, tagName];
     // const newTags = [...props.task.tags, tagName];
     const newTask = { ...props.task, tags: newTags}
+    // const newTask = { ...task, tags: newTags}
     // setTasks(newTask);
     setTasksOnLocalStorage(newTask);
-
     setTaskTags(newTags);
+    
     // setTag(''); // limpa o input // não precisa disso, pois o input é limpo quando o modal é fechado
   }
 
@@ -112,6 +134,20 @@ export default function TaskComponent(props) {
     }
   }
 
+  const changeSort = () => {
+    // if(sortOn) {
+      tasks.sort((a, b) => {
+        let [h1, m1] = a.timeStart.split(':')
+        let [h2, m2] = b.timeStart.split(':')
+        return (Number(h1) - Number(h2)) || (Number(m1) - Number(m2))
+      });
+      // console.log('changeSort->tasks', tasks);
+      console.log('sortOn', sortOn);
+      // setTasks(getTasksOnLocalStorage());
+      setTasksOnLocalStorage(tasks);
+    // }
+  }
+
   useEffect(() => {
     updateTask();
   }, [taskTags]);
@@ -123,6 +159,10 @@ export default function TaskComponent(props) {
   useEffect(() => {
     setButtonStatus();
   }, [tag]);
+
+  // useEffect(() => {
+  //   changeSort();
+  // }, [sortOn]);
 
 
   // const update = (task) => {

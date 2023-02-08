@@ -11,6 +11,7 @@ export default function TaskArea() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalModeUpdate, setModalModeUpdate] = useState(false);
   const { tasks, setTasks, tags, setTags } = useContext(MainContext);
+  const [sortOn, setSortOn] = useState(false);
 
   const openModal = () => {
     setIsOpen(true);
@@ -53,6 +54,7 @@ export default function TaskArea() {
     setLocalStorage(newTask);
     setTask(schedule);
     closeModal();
+    setSortOn(!sortOn);
   };
 
   /**
@@ -89,10 +91,9 @@ export default function TaskArea() {
     openModal();  
   }
 
-
-
   const setUpdateTask = () => {
     const { title, timeStart, timeEnd } = task;
+
     const newTasks = tasks.map((t) => {
       if (t.id === task.id) {
         // const duration = (timeEnd - timeStart)
@@ -119,6 +120,23 @@ export default function TaskArea() {
 
   };
 
+  // const changeSort = () => {
+  //   // if(sortOn) {
+  //     console.log('sortOn', sortOn);
+  //     // console.log('tasks', tasks);
+  //     let tasks = getLocalStorage();
+  //     tasks.sort((a, b) => {
+  //       let [h1, m1] = a.timeStart.split(':')
+  //       let [h2, m2] = b.timeStart.split(':')
+  //       return (Number(h1) - Number(h2)) || (Number(m1) - Number(m2))
+  //     });
+  //     console.log('changeSort->tasks', tasks);
+  //     setTasks(tasks);
+  //     // setLocalStorage(...tasks);
+      
+  //   // }
+  // }
+
   useEffect(() => {
     setTasks(getLocalStorage());
     setTags(getTagsOnLocalStorage());
@@ -128,7 +146,9 @@ export default function TaskArea() {
     timeUpdate();
   }, [task.timeStart, task.timeEnd]);
 
-
+  // useEffect(() => {
+  //   changeSort();
+  // }, [sortOn]);
   /**
    * a diferença desta implementação para o modelo abaixo é o tratamento especial para os inputs que são do tipo dateType
    */
@@ -177,7 +197,7 @@ export default function TaskArea() {
       </Modal>
 
       <div>
-        {tasks.map((task, index) => (
+        {tasks?.map((task, index) => (
           <div key={index}>
             <TaskComponent task={task} remove={removeTask} update={updateTask}/>
           </div>
