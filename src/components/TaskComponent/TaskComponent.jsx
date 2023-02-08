@@ -36,7 +36,8 @@ export default function TaskComponent(props) {
   }
 
   const updateTask = () => {
-    const newTask = { ...task, tags: taskTags}
+    const newTask = { ...props.task, tags: props.task.tags}
+    // const newTask = { ...task, tags: taskTags}
     // const newTask = { ...task, tags: taskTags}
     // console.log('updateTask->newTask', newTask);
     setTask(newTask);
@@ -56,7 +57,7 @@ export default function TaskComponent(props) {
     newTasks.sort((a, b) => {
       let [h1, m1] = a.timeStart.split(':')
       let [h2, m2] = b.timeStart.split(':')
-      return (h1 - h2) || (m1 - m2)
+      return (Number(h1) - Number(h2)) || (Number(m1) - Number(m2))
     });
     
     // // newTasks.sort((a, b) => b.id - a.id);
@@ -65,17 +66,17 @@ export default function TaskComponent(props) {
     setTasksOnLocalStorage(newTasks);
   }
 
-
   // adicionar tag a task (o B.O tá aqui)
   const addTaskTag = (tagName) => {
-    console.log('addTaskTag->tagItem', tagName);
-    console.log('addTaskTag->taskTags', props.task);
+    // console.log('addTaskTag->tagItem', tagName);
+    // console.log('addTaskTag->taskTags', props.task);
     // if(!tagName) return; // if tag is empty, return out of the function // não precisa disso, pois o botão só é habilitado se a tag não for vazia
     // if(taskTags.includes(tagName)) return; // if tag is already in the array, return out of the function
     
     // o B.O tá aqui ( ele precisa adicionar a tag na task correta e depois atualizar a task no localStorage)
-    const newTags = [...taskTags, tagName];
-    // const newTags = [...props.task.tags, tagName];
+    // const newTags = [...taskTags, tagName];
+    const newTags = [...props.task.tags, tagName];
+
     const newTask = { ...props.task, tags: newTags}
     // setTasks(newTask);
     setTasksOnLocalStorage(newTask);

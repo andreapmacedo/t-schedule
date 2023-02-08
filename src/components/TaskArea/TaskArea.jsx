@@ -55,11 +55,14 @@ export default function TaskArea() {
     closeModal();
   };
 
-  /**
-   * esta implementaçao abaixo está correta, porém, a task que vem como parametro é advinda de uma props que não é atualizada
-   * fazendo com que após uma atualização, o valor da task não seja atualizado, e sim, o valor da task que foi passada como parametro
-   */
-  
+  // const sortTasks = () => {
+  //   tasks.sort((a, b) => {
+  //     let [h1, m1] = a.timeStart.split(':')
+  //     let [h2, m2] = b.timeStart.split(':')
+  //     return (Number(h1) - Number(h2)) || (Number(m1) - Number(m2))
+  //   });
+  // }
+    
   const removeTask = ({target}) => {
     const { value } = target;  
     const newTasks = tasks.filter((t) => Number(t.id) !== Number(value));
@@ -116,13 +119,18 @@ export default function TaskArea() {
     const duration = getDifference(task.timeEnd, task.timeStart)
     // setTask({ ...task, duration: task.timeEnd - task.timeStart });
     setTask({ ...task, duration });
-
   };
 
   useEffect(() => {
     setTasks(getLocalStorage());
     setTags(getTagsOnLocalStorage());
   }, []);
+
+  // useEffect(() => {
+
+  //   sortTasks();
+  // }, [tasks]);
+
 
   useEffect(() => {
     timeUpdate();
