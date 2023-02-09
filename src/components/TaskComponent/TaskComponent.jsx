@@ -54,7 +54,7 @@ export default function TaskComponent(props) {
   }
 
   const addTaskTag = (tagName) => {
-    const newTags = [...taskTags, tagName];
+    const newTags = [...props.task.tags, tagName];
     const newTask = { ...props.task, tags: newTags}
     setTasksOnLocalStorage(newTask);
     setTaskTags(newTags);
@@ -80,7 +80,7 @@ export default function TaskComponent(props) {
   }
 
   const removeTag = (tagItem) => {
-    const newTags = taskTags.filter((t) => t !== tagItem);
+    const newTags = props.task.tags.filter((t) => t !== tagItem);
     setTaskTags(newTags);
   }
 
