@@ -156,7 +156,7 @@ export default function TaskComponent(props) {
             <div
               key={index}
             >  
-              { !taskTags.includes(tag) && <AddTagComponent tag={tag} add={addTaskTag} /> }
+              { !props.task.tags.includes(tag) && <AddTagComponent tag={tag} add={addTaskTag} /> }
             </div>
           ))}
         </div>
@@ -183,7 +183,7 @@ export default function TaskComponent(props) {
 
       <div className="tag-container">
         {
-        // taskTags &&  
+        // taskTags &&  // dessa forma não atualiza a lista de tags quando a task é atualizada
         // taskTags.map((tag, index) => (
         props.task.tags &&  
         props.task.tags.map((tag, index) => (
