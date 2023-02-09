@@ -106,12 +106,13 @@ export default function TaskComponent(props) {
   }, [tag]);
 
 
-  const showInfo = () => {
-    console.log("props.task", props.task);
-  }
+  // const showInfo = () => {
+  //   console.log("props.task", props.task);
+  // }
 
   return (
-    <StyledTaskComponent onClick={() => showInfo() }>
+    // <StyledTaskComponent onClick={() => showInfo() }>
+    <StyledTaskComponent >
       {/* <h1>TaskComponent</h1> */}
       
       <div className="task-description" >
@@ -161,7 +162,7 @@ export default function TaskComponent(props) {
         </div>
 
 
-        {/* modal interno de adiçao de tag */}
+        
         <button onClick={() => openModalAddTag()}>Open internal Modal</button>
         <Modal
           isOpen={modalAddTagIsOpen}
@@ -182,8 +183,10 @@ export default function TaskComponent(props) {
 
       <div className="tag-container">
         {
-        taskTags &&  
-        taskTags.map((tag, index) => (
+        // taskTags &&  
+        // taskTags.map((tag, index) => (
+        props.task.tags &&  
+        props.task.tags.map((tag, index) => (
           <div
             key={index}
           >  
@@ -192,6 +195,7 @@ export default function TaskComponent(props) {
           </div>
         ))}
       </div>
+      
       {/* <button onClick={() => remove(task)} >Remover</button> */}
       {/* <button onClick={() => update(task)} >Editar</button> */}
       <button onClick={props.remove} value={props.task.id} >Remover</button>

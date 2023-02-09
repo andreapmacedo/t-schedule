@@ -123,7 +123,7 @@ export default function TaskArea() {
 
     // newTasks.sort((a, b) => a.timeStart - b.timeStart);
     // newTasks.sort((a, b) => b.id - a.id);
-    // newTasks.sort((a, b) => a.id - b.id);
+    // const sortedTasks = tasks.sort((a, b) => a.id - b.id);
     console.log('sortTasks->tasks', tasks);
     // tasks.sort((a, b) => {
     const sortedTasks = tasks.sort((a, b) => {
@@ -137,9 +137,9 @@ export default function TaskArea() {
     }
   }
 
-  // useEffect(() => {
-  //   sortTasks();
-  // }, [tasks]);
+  useEffect(() => {
+    sortTasks();
+  }, [tasks]);
 
   useEffect(() => {
     setTasks(getLocalStorage());
