@@ -119,6 +119,28 @@ export default function TaskArea() {
 
   };
 
+  const sortTasks = () => {
+
+    // newTasks.sort((a, b) => a.timeStart - b.timeStart);
+    // newTasks.sort((a, b) => b.id - a.id);
+    // const sortedTasks = tasks.sort((a, b) => a.id - b.id);
+    console.log('sortTasks->tasks', tasks);
+    // tasks.sort((a, b) => {
+    const sortedTasks = tasks.sort((a, b) => {
+      let [h1, m1] = a.timeStart.split(':')
+      let [h2, m2] = b.timeStart.split(':')
+      return (h1 - h2) || (m1 - m2)
+    });
+    if (sortedTasks.length > 0) {
+      setTasks(sortedTasks);
+      setLocalStorage(sortedTasks);
+    }
+  }
+
+  useEffect(() => {
+    sortTasks();
+  }, [tasks]);
+
   useEffect(() => {
     setTasks(getLocalStorage());
     setTags(getTagsOnLocalStorage());

@@ -37,8 +37,6 @@ export default function TaskComponent(props) {
 
   const updateTask = () => {
     const newTask = { ...task, tags: taskTags}
-    // const newTask = { ...task, tags: taskTags}
-    // console.log('updateTask->newTask', newTask);
     setTask(newTask);
     setTasksOnLocalStorage(newTask);
   }
@@ -51,39 +49,22 @@ export default function TaskComponent(props) {
         return t;
       }
     });
-    // // newTasks.sort((a, b) => a.timeStart - b.timeStart);
-
-    newTasks.sort((a, b) => {
-      let [h1, m1] = a.timeStart.split(':')
-      let [h2, m2] = b.timeStart.split(':')
-      return (h1 - h2) || (m1 - m2)
-    });
-    
-    // // newTasks.sort((a, b) => b.id - a.id);
-    // // newTasks.sort((a, b) => a.id - b.id);
     setTasks(newTasks);
     setTasksOnLocalStorage(newTasks);
   }
 
-
-  // adicionar tag a task (o B.O tá aqui)
   const addTaskTag = (tagName) => {
-    console.log('addTaskTag->tagItem', tagName);
-    console.log('addTaskTag->taskTags', props.task);
-    // if(!tagName) return; // if tag is empty, return out of the function // não precisa disso, pois o botão só é habilitado se a tag não for vazia
-    // if(taskTags.includes(tagName)) return; // if tag is already in the array, return out of the function
-    
-    // o B.O tá aqui ( ele precisa adicionar a tag na task correta e depois atualizar a task no localStorage)
-    const newTags = [...taskTags, tagName];
-    // const newTags = [...props.task.tags, tagName];
+    const newTags = [...props.task.tags, tagName];
     const newTask = { ...props.task, tags: newTags}
-    // setTasks(newTask);
-    setTasksOnLocalStorage(newTask);
-
+    // setTasks(newTask)
+    // setTasksOnLocalStorage(newTask);
     setTaskTags(newTags);
-    // setTag(''); // limpa o input // não precisa disso, pois o input é limpo quando o modal é fechado
   }
 
+  /**
+   * Esta função adiciona uma tag global, ou seja, adiciona uma tag que poderá ser usada em todas as tasks
+   *  
+   */
   const addGlobalTag = () => {
     if(!tag) return; // if tag is empty, return out of the function
     // if(tags.includes(tag)) return; // if tag is already in the array, return out of the function
@@ -100,7 +81,7 @@ export default function TaskComponent(props) {
   }
 
   const removeTag = (tagItem) => {
-    const newTags = taskTags.filter((t) => t !== tagItem);
+    const newTags = props.task.tags.filter((t) => t !== tagItem);
     setTaskTags(newTags);
   }
 
@@ -112,6 +93,7 @@ export default function TaskComponent(props) {
     }
   }
 
+  // vai modificar o estado da task toda vez que o estado das tags da task for alterado
   useEffect(() => {
     updateTask();
   }, [taskTags]);
@@ -125,40 +107,13 @@ export default function TaskComponent(props) {
   }, [tag]);
 
 
-  // const update = (task) => {
-  //   const taskFound = tasks.filter((t) => t.id === task.id);
-  //   const { title, timeStart, timeEnd } = taskFound[0];
-  //   setTask({ ...task, title, timeStart, timeEnd });
-  //   // setModalModeUpdate(true);
-  //   // openModal();  
+  // const showInfo = () => {
+  //   console.log("props.task", props.task);
   // }
 
-  // const remove = (task) => {
-  //   console.log("Removendo Tarefa");
-    
-  //   // const newTasks = tasks.filter((t) => Number(t.id) !== Number(task.id));
-  //   const newTasks = tasks.filter((t) => t.title !== task.title);
-  //   console.log('task.title', task.title);
-  //   tasks.filter((t) => {
-  //     console.log('t.title', t.title);
-  //     // Number(t.id) !== Number(task.id)
-  //   });
-
-  //   setTasks(newTasks);
-  //   setTasksOnLocalStorage(newTasks);
-  // };
-
-  // useEffect(() => {
-  //   console.log('taskTags', taskTags);
-  //   setTasks(getTasksOnLocalStorage());
-  // }, [remove]);
-
-  const showInfo = () => {
-    console.log("props.task", props.task);
-  }
-
   return (
-    <StyledTaskComponent onClick={() => showInfo() }>
+    // <StyledTaskComponent onClick={() => showInfo() }>
+    <StyledTaskComponent >
       {/* <h1>TaskComponent</h1> */}
       
       <div className="task-description" >
@@ -202,13 +157,13 @@ export default function TaskComponent(props) {
             <div
               key={index}
             >  
-              { !taskTags.includes(tag) && <AddTagComponent tag={tag} add={addTaskTag} /> }
+              { !props.task.tags.includes(tag) && <AddTagComponent tag={tag} add={addTaskTag} /> }
             </div>
           ))}
         </div>
 
 
-        {/* modal interno de adiçao de tag */}
+        
         <button onClick={() => openModalAddTag()}>Open internal Modal</button>
         <Modal
           isOpen={modalAddTagIsOpen}
@@ -219,7 +174,6 @@ export default function TaskComponent(props) {
         >
           <h2>modal interno</h2>
           <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
-          {/* <button onClick={() => addTaskTag()}>Adicionar Tag</button> */}
           <button onClick={() => addGlobalTag()} disabled={buttonDisabled}>Adicionar Tag</button>
           <button onClick={() => closeModalAddTag()}>X</button>
         </Modal>
@@ -227,10 +181,13 @@ export default function TaskComponent(props) {
         <h2>Adicionar Tag</h2>
         <button onClick={() => closeModal()}>x</button>
       </Modal>
+
       <div className="tag-container">
         {
-        taskTags &&  
-        taskTags.map((tag, index) => (
+        // taskTags &&  // dessa forma não atualiza a lista de tags quando a task é atualizada
+        // taskTags.map((tag, index) => (
+        props.task.tags &&  
+        props.task.tags.map((tag, index) => (
           <div
             key={index}
           >  
@@ -239,6 +196,7 @@ export default function TaskComponent(props) {
           </div>
         ))}
       </div>
+      
       {/* <button onClick={() => remove(task)} >Remover</button> */}
       {/* <button onClick={() => update(task)} >Editar</button> */}
       <button onClick={props.remove} value={props.task.id} >Remover</button>
