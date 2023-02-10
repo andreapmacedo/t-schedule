@@ -124,7 +124,7 @@ export default function TaskArea() {
     // newTasks.sort((a, b) => a.timeStart - b.timeStart);
     // newTasks.sort((a, b) => b.id - a.id);
     // const sortedTasks = tasks.sort((a, b) => a.id - b.id);
-    console.log('sortTasks->tasks', tasks);
+    // console.log('sortTasks->tasks', tasks);
     // tasks.sort((a, b) => {
     const sortedTasks = tasks.sort((a, b) => {
       let [h1, m1] = a.timeStart.split(':')
