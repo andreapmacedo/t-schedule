@@ -4,6 +4,6 @@ export const Container = styled.div`
 
   grid-area: AS;
 
-  background-color: #1B1F38;
+  background-color: ${props => props.theme.colors.secondary}; // #252A48
     
 `;
