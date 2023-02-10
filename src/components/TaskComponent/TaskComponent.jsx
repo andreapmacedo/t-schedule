@@ -55,9 +55,7 @@ export default function TaskComponent(props) {
 
   const addTaskTag = (tagName) => {
     const newTags = [...props.task.tags, tagName];
-    const newTask = { ...props.task, tags: newTags}
-    // setTasks(newTask)
-    // setTasksOnLocalStorage(newTask);
+    // const newTask = { ...props.task, tags: newTags}
     setTaskTags(newTags);
   }
 
