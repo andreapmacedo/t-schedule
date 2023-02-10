@@ -78,7 +78,7 @@ export default function Dashboard() {
       });
     });
     
-    console.log('allTaskByTag', allTaskByTag);
+    // console.log('allTaskByTag', allTaskByTag);
     const resume = balance(allTaskByTag)
     // console.log('resume', resume);
     setResume(resume);

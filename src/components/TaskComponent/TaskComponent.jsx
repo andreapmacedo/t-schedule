@@ -55,8 +55,12 @@ export default function TaskComponent(props) {
 
   const addTaskTag = (tagName) => {
     const newTags = [...props.task.tags, tagName];
-    // const newTask = { ...props.task, tags: newTags}
+    // console.log("newTags", newTags);
+    const newTask = { ...props.task, tags: newTags}
+    // console.log("newTask", newTask);
+    setTask(newTask);
     setTaskTags(newTags);
+    // o useEffect vai atualizar a task toda vez que o estado das tags da task for alterado
   }
 
   /**
