@@ -3,11 +3,9 @@ import { Container } from "./styles";
 
 const Content = () => {
   return (
-    <div>
-      <Container>
-        <h1>Content</h1>
-      </ Container>
-    </div>
+    <Container>
+      <h1>Content</h1>
+    </Container>
   );
 }
 
