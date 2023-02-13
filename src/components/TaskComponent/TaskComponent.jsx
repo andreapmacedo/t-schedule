@@ -95,7 +95,7 @@ export default function TaskComponent(props) {
     }
   }
 
-  // vai modificar o estado da task toda vez que o estado das tags da task for alterado
+  
   useEffect(() => {
     updateTask();
   }, [taskTags]);

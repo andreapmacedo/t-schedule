@@ -120,7 +120,6 @@ export default function TaskArea() {
   };
 
   const sortTasks = () => {
-
     // newTasks.sort((a, b) => a.timeStart - b.timeStart);
     // newTasks.sort((a, b) => b.id - a.id);
     // const sortedTasks = tasks.sort((a, b) => a.id - b.id);
@@ -149,7 +148,6 @@ export default function TaskArea() {
   useEffect(() => {
     timeUpdate();
   }, [task.timeStart, task.timeEnd]);
-
 
   /**
    * a diferença desta implementação para o modelo abaixo é o tratamento especial para os inputs que são do tipo dateType
