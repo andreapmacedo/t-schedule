@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+// interface IContainerProps {
+//   lineColor: string;
+// }
+
 interface ITitleContainerProps {
   lineColor: string;
 }
