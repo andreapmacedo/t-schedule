@@ -4,13 +4,13 @@ import MainHeader from "../MainHeader";
 import Aside from "../Aside";
 import Content from "../Content";
 
-const Layout = () => {
+const Layout = ({ children }) => {
   return (
     
     <Grid>
       <MainHeader />
       <Aside />
-      <Content />
+      <Content> {children} </Content>
     </Grid>
     
   );

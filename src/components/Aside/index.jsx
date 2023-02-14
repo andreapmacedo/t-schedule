@@ -20,7 +20,6 @@ import {  } from "./styles";
 const Aside = () => {
   return (
     <Container>
-      <h1>Aside</h1>
       <Header>
         <LogImg src={logoImg} alt="Logo Minha Carteira" />
       </Header>
